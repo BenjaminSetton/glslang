@@ -33,11 +33,6 @@
 cmake_minimum_required(VERSION 3.17.2)
 project(glslang)
 
-if (CMAKE_VERSION VERSION_LESS "3.21")
-    # https://cmake.org/cmake/help/latest/variable/PROJECT_IS_TOP_LEVEL.html
-    string(COMPARE EQUAL ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR} PROJECT_IS_TOP_LEVEL)
-endif()
-
 set(GLSLANG_TESTS_DEFAULT ON) # Can be turned off, below, based on environment.
 set(GLSLANG_ENABLE_INSTALL_DEFAULT ON) # Can be turned off, below, based on environment.
 
@@ -84,10 +79,9 @@ endif()
 # Simplify the default case of including this project.
 # Otherwise add_subdirectory users have a harder time consuming the library.
 # Since glslang will pollute the installation and add undesirable testing.
-if(NOT PROJECT_IS_TOP_LEVEL)
-    set(GLSLANG_TESTS_DEFAULT OFF)
-    set(GLSLANG_ENABLE_INSTALL_DEFAULT OFF)
-endif()
+message(STATUS "Modifying configuration for lib inclusion")
+set(GLSLANG_TESTS_DEFAULT OFF)
+set(GLSLANG_ENABLE_INSTALL_DEFAULT OFF)
 
 # Control whether Glslang self-tests are built and tested.
 # Always expose this as an option, so the defaults can be overridden.
